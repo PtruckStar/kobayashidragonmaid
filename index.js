@@ -36,7 +36,7 @@ const search = async (req, res) => {
 //get episodes
 const watch = async (req, res) => {
   const {url} = req.query
-  scrapeIt(url, {
+  scrapeIt(encodeURI(url), {
     list: {
       listItem: "ul#daftarepisode > li",
       data: {
@@ -57,7 +57,7 @@ const watch = async (req, res) => {
 //get stream url
 const loadStream = async (req, res) => {
   const {src} = req.query
-  scrapeIt(src, {
+  scrapeIt(encodeURI(src), {
     url: {
       selector: "#pembed > iframe",
       attr: "src"
