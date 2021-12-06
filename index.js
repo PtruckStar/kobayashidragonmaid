@@ -77,4 +77,4 @@ app.get("/", (req, res) => {
 app.get("/search", search)
 app.get("/watch", watch)
 app.get("/stream", loadStream)
-app.listen(PORT, () => console.log"ready")
+app.listen(PORT, () => console.log("ready"))
