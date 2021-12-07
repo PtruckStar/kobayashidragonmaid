@@ -58,9 +58,31 @@ const watch = async (req, res) => {
 const loadStream = async (req, res) => {
   const {src} = req.query
   scrapeIt(encodeURI(src), {
-    url: {
+    default: {
       selector: "#pembed > iframe",
       attr: "src"
+    },
+    options: {
+      listItem: ".video-nav > div > select > option",
+      data: {
+        res: {
+          how: "html"
+        },
+        src: {
+          attr: "value",
+          convert: (data) => {
+            if(data == '') return "omake"
+            let encode = Buffer.from(data, "base64").toString("ascii")
+            let s = scrapeIt.scrapeHTML(encode, {
+              url: {
+                selector: "iframe",
+                attr: "src"
+              }
+            })
+            return s.url
+          }
+        }
+      }
     }
   }).then(({data, response}) => {
     if(response.statusCode !== 200) return res.status(response.statusCode).json({status:"error", msg:response.statusMessage})
