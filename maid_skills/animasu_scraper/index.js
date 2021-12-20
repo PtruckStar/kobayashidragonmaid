@@ -1,30 +1,6 @@
-const {search, watch, stream} = require("./main")
-const view_error = require("./error")
+const api = require("./api")
+const web = require("./web")
 
-async function animasu(req, res) {
-  const queries = req.query
-  const params = req.params.jutsu
-  const {s, url, src} = queries || undefined
-  
-  if(params == "search" && s != undefined) {
-    const {data, response} = await search(s)
-    if(response.statusCode !== 200) return res.status(response.statusCode).json({status:"error", msg:response.statusMessage})
-    console.log(data);
-    return res.status(200).json(data)
-  } else if(params == "watch" && url != undefined) {
-    const {data, response} = await watch(url)
-    if(response.statusCode !== 200) return res.status(response.statusCode).json({status:"error", msg:response.statusMessage})
-    console.log(data);
-    return res.status(200).json(data)
-  } else if(params == "stream" && src != undefined) {
-    const {data, response} = await stream(src)
-    if(response.statusCode !== 200) return res.status(response.statusCode).json({status:"error", msg:response.statusMessage})
-    console.log(data);
-    return res.status(200).json(data)
-  } else {
-    console.log({queries, params})
-    return view_error(req, res)
-  }
+module.exports = {
+  api, web
 }
-
-module.exports = animasu

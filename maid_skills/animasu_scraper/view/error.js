@@ -1,0 +1,1 @@
+module.exports = `<div style="height:100vh;display:grid;place-items:center;"><p style="color:#505050;">hidup ini memang tak selalu mulus! 🥲, seperti kamu yang pengin nonton tapi server lagi error 😭, maaf ya di dunia ini tak ada yang sempurna, coba cari keberuntunganmu <a style="color:#3478F6;" href="/anime">disini</a> siapa tau lebih berkah 😇.</p></div>`
