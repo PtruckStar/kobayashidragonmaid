@@ -29,8 +29,8 @@ const h = (content) => { return `
     overflow: hidden;
     padding-bottom: 0.5rem;
     background-color: white;
-    box-shadow: 0 0 2px -2px black;
     border-radius: 0.5rem;
+    display: block;
   }
   a.list > img {
     width: 100%;
@@ -79,7 +79,6 @@ const h = (content) => { return `
       padding: 1rem;
       margin-top: 0.5rem;
       max-width: 600px;
-      box-shadow: rgba(0, 0, 0, 0.2) Opx 0.5rem 1.2rem;
       box-sizing: border-box;
     }
     .stream > p {
@@ -160,6 +159,12 @@ const h = (content) => { return `
     text-align: center;
     vertical-align: middle;
     margin-top:3rem
+  }
+  
+  .shadow {
+    box - shadow: 
+      -5 px - 5 px 5 px - 3 px #D0D0D0,
+      5 px 5 px 5 px - 3 px #D0D0D0;
   }
   
   @media(min-width:48em) {

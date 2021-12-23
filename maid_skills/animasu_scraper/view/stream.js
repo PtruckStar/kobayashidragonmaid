@@ -1,6 +1,6 @@
-module.exports = (data) => { return `<iframe id="stream" src="${data.video}"  width="480" height="270"></iframe>
-<div class="navbar">${data.nav}</div>
-<div class="stream">
+module.exports = (data) => { return `<iframe id="stream" class="shadow" src="${data.video}"  width="480" height="270"></iframe>
+<div class="navbar shadow">${data.nav}</div>
+<div class="stream shadow">
   <h3>${data.title}</h3>
   <p>Jika terjadi masalah saat memutar video, coba gunakan server lain:
     <select id="server" onchange="newSrc()">

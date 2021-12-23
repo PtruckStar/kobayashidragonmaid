@@ -21,7 +21,7 @@ async function web_animasu(req, res) {
       if (t.title == "") return
       
       const get_url = new URL(t.url).pathname
-      return list += `<a class="list" href="${get_url}"><img src="${t.poster}"><h3 class="list-title">${t.title}</h3><span class="list-info">${t.type}, ${t.eps} ${t.status}</span></a>`
+      return list += `<a class="list shadow" href="${get_url}"><img src="${t.poster}"><h3 class="list-title">${t.title}</h3><span class="list-info">${t.type}, ${t.eps} ${t.status}</span></a>`
     })
     
     const wrap = `<div class="list-wraper">${list}</div>`
