@@ -162,7 +162,7 @@ const h = (content) => { return `
   }
   
   .shadow {
-    box - shadow: 
+    box-shadow: 
       -5 px - 5 px 5 px - 3 px #D0D0D0,
       5 px 5 px 5 px - 3 px #D0D0D0;
   }
