@@ -7,25 +7,30 @@ const view_stream = require("./view/stream")
 async function web_animasu(req, res) {
   const queries = req.query
   const params = req.params.jutsu
-  const {s, url, src} = queries
+  const {s, url, src, page} = queries
   
   if(params == "search" && s != undefined) {
-    const {data, response} = await search(s)
-    //console.log(data)
-    if(response.statusCode !== 200) return res.status(response.statusCode).send(html(view_error))
-    if(data.list[0].title == "") return res.status(500).send(html(view_search + `<span class="notfound">Not Found...</span>`))
+    const {data, response} = (page != undefined) ? await search(s, page) : await search(s)
+    if(response.statusCode !== 200) return res.status(response.statusCode).send(html(view_error, "404: page not found"))
+    if(data.list[0].title == "") return res.status(500).send(html(view_search + `<span class="notfound">Not Found...</span>`, `Penelusuran tidak ditemukan untuk ${s}`))
     
-    let list = new String()
-    
+    let list = new Array()
     await data.list.map(t => {
-      if (t.title == "") return
-      
       const get_url = new URL(t.url).pathname
-      return list += `<a class="list shadow" href="${get_url}"><img src="${t.poster}"><h3 class="list-title">${t.title}</h3><span class="list-info">${t.type}, ${t.eps} ${t.status}</span></a>`
+      return list.push(`<a class="list shadow" href="${get_url}"><img src="${t.poster}"><h3 class="list-title">${t.title}</h3><span class="list-info">${t.type}, ${t.eps} ${t.status}</span></a>`)
     })
     
-    const wrap = `<div class="list-wraper">${list}</div>`
-    return res.status(200).send(html(view_search+wrap))
+    const pageNumber = (data.nextpage != "") ? new URL(data.nextpage).pathname.split("/")[2] : null
+    const nextpage = (data.nextpage != "") ? `/anime/search?s=${s}&page=${pageNumber}` : "none"
+    const js = require("./view/search_script")(nextpage)
+    
+    if(page == undefined) {
+      const items = list.join("")
+      const wrap = `<div class="list-wraper">${items}</div>`
+      return res.status(200).send(html(view_search+wrap+js, `${s} hasil penelusuran`))
+    } else {
+      return res.status(200).json({list, nextpage})
+    }
     
   } else if(params != undefined) {
     //params become like this: /...title/
@@ -37,7 +42,7 @@ async function web_animasu(req, res) {
       console.log("next")
     }
     //console.log({data, res:response.statusCode})
-    if(response.statusCode !== 200) return res.status(response.statusCode).send(html(view_error))
+    if(response.statusCode !== 200) return res.status(response.statusCode).send(html(view_error, "404: page not found"))
     
     const getUrl = (link) => {
       const u = new URL(link).pathname
@@ -65,12 +70,13 @@ async function web_animasu(req, res) {
     const d = {
       title, video, server, episod, nav
     }
+    const page_title = params.split("/").join(" ")
     
-    return res.status(200).send(html(view_search + view_stream(d)))
+    return res.status(200).send(html(view_search + view_stream(d), page_title))
     
   } else {
     console.log({queries, params})
-    return res.status(200).send(html(`<div style="height:90vh;width:100%;display:grid;place-items:center;">${view_search}</div>`))
+    return res.status(200).send(html(`<div style="height:90vh;width:100%;display:grid;place-items:center;">${view_search}</div>`, "Nonton anime gratis!!"))
   }
 }
 

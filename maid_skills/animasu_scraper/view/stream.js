@@ -1,4 +1,4 @@
-module.exports = (data) => { return `<iframe id="stream" class="shadow" src="${data.video}"  width="480" height="270"></iframe>
+module.exports = (data) => { return `<iframe id="stream" class="shadow" src="${data.video}"  width="480" height="360"></iframe>
 <div class="navbar shadow">${data.nav}</div>
 <div class="stream shadow">
   <h3>${data.title}</h3>

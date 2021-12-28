@@ -2,8 +2,8 @@ const scrapeIt = require("scrape-it");
 const origin = "https://animasu.vip";
 
 //search form
-async function search(s) {
-  return await scrapeIt(origin + "?s=" + s, {
+async function search(s, page) {
+  return await scrapeIt(page != undefined ? origin + `/page/${page}/?s=` + s : origin + "?s=" + s, {
     list: {
       listItem: ".listupd > div",
       data: {
@@ -23,6 +23,10 @@ async function search(s) {
           attr: "href"
         }
       }
+    },
+    nextpage: {
+      selector: "a.next",
+      attr: "href"
     }
   });
 }
@@ -89,7 +93,11 @@ async function play(anime, next = false) {
           return u.replace("/", "")
         }
       }
-    }).then(({data})=> anime = data.url)
+    })
+    .then(({data})=> anime = data.url)
+    .catch(e=>{
+      return {response:404, data:"error"}
+    })
   }
   console.log(anime)
 

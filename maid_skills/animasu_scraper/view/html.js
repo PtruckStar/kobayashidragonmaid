@@ -1,6 +1,7 @@
-const h = (content) => { return `
+const h = (content, title) => { return `
 <html>
 <head>
+<title>${title}</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
   body {
@@ -161,10 +162,20 @@ const h = (content) => { return `
     margin-top:3rem
   }
   
+  #nextbtn {
+    background-color: #3478F6;
+    color: white;
+    font-size: 1em;
+    margin-top: 1rem;
+    padding: 0.5rem;
+    border: none;
+    border-radius: 0.5rem;
+  }
+  
   .shadow {
     box-shadow: 
-      -5px -5px 5px -3px #D0D0D0,
-      5px 5px 5px -3px #D0D0D0;
+      -5px -5px 5px -3px #E4E4E4,
+      5px 5px 5px -3px #E4E4E4;
   }
   
   @media(min-width:48em) {
