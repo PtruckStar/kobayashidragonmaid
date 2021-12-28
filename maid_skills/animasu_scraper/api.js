@@ -1,4 +1,4 @@
-const {search, watch, stream} = require("./main")
+const {search, watch, stream} = require("./core")
 const view_error = require("./view/error")
 const html = require("./view/html")
 

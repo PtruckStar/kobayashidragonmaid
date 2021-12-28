@@ -121,6 +121,9 @@ const h = (content, title) => { return `
       white-space: nowrap;
       display: inline-block;
     }
+    .eps_list > div > span > i {
+      color: #3478F6;
+    }
     .eps_list > div {
       height: 1.5rem;
       padding: 0.5rem;

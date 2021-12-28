@@ -1,4 +1,4 @@
-const {search, play} = require("./main")
+const {search, play} = require("./core")
 const html = require("./view/html")
 const view_search = require("./view/search")
 const view_error = require("./view/error")
@@ -41,7 +41,6 @@ async function web_animasu(req, res) {
       response = next.response
       console.log("next")
     }
-    //console.log({data, res:response.statusCode})
     if(response.statusCode !== 200) return res.status(response.statusCode).send(html(view_error, "404: page not found"))
     
     const getUrl = (link) => {
@@ -50,7 +49,14 @@ async function web_animasu(req, res) {
     } 
     
     const title = data.title
-    const video = data.video[1].src
+    const status = data.status
+    
+    let video
+    try {
+      video = data.video[1].src
+    } catch(e) {
+      video = ""
+    }
     
     let server = new String()
     await data.video.map(i=>{
@@ -58,25 +64,26 @@ async function web_animasu(req, res) {
       server += `<option value="${i.src}">${i.res}</option>`
     })
     
-    let episod = new String()
-    await data.episodes.map(i=> {
-      episod += `<div><span>${i.title}</span><a href="${getUrl(i.url)}">play</a></div>`
+    let episod = new Array()
+    await data.episodes.map((i, x)=> {
+      let s = (x == 0) ? `<i> ${status}</i>` : ""
+      episod.push(`<div><span>${i.title + s}</span><a href="${getUrl(i.url)}">play</a></div>`)
     })
     
     let nav = new String()
     if(data.prev != "") nav += `<div class="nav"><a href="${getUrl(data.prev)}">\<\<\<</a></div>`
-    if(data.next != "") nav += `<div class="nav"><a href="${getUrl(data.next)}">\>\>\></a></div>`
+    if(data.next != "" && typeof data.next !== "function") nav += `<div class="nav"><a href="${getUrl(data.next)}">\>\>\></a></div>`
     
     const d = {
       title, video, server, episod, nav
     }
-    const page_title = params.split("/").join(" ")
+    const page_title = params.split("-").join(" ")
     
     return res.status(200).send(html(view_search + view_stream(d), page_title))
     
   } else {
     console.log({queries, params})
-    return res.status(200).send(html(`<div style="height:90vh;width:100%;display:grid;place-items:center;">${view_search}</div>`, "Nonton anime gratis!!"))
+    return res.status(200).send(html(`<div style="height:90vh;width:100%;display:grid;place-items:center;">${view_search}</div>`, "Nonton anime gratis subtitle indonesia!"))
   }
 }
 
