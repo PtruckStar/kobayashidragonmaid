@@ -146,10 +146,7 @@ async function play(anime, next = false) {
       selector: ".naveps :nth-child(3)",
       how: "html",
       convert: i => {
-        function f() {
-          return i
-        }
-        if(i === null||/Selesai/.test(i)||/Tunggu/.test(i)) return f
+        if(i === null||/Selesai/.test(i)||/Tunggu/.test(i)) return ""
         const j = scrapeIt.scrapeHTML(i, {url: {selector: "a",attr: "href"}});
         return j.url
       }

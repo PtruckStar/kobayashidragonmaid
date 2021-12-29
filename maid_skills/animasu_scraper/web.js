@@ -7,7 +7,7 @@ const view_stream = require("./view/stream")
 async function web_animasu(req, res) {
   const queries = req.query
   const params = req.params.jutsu
-  const {s, url, src, page} = queries
+  const {s, page} = queries
   
   if(params == "search" && s != undefined) {
     const {data, response} = (page != undefined) ? await search(s, page) : await search(s)
@@ -71,8 +71,8 @@ async function web_animasu(req, res) {
     })
     
     let nav = new String()
-    if(data.prev != "") nav += `<div class="nav"><a href="${getUrl(data.prev)}">\<\<\<</a></div>`
-    if(data.next != "" && typeof data.next !== "function") nav += `<div class="nav"><a href="${getUrl(data.next)}">\>\>\></a></div>`
+    if(data.prev != "") nav += `<div class="nav"><a href="${getUrl(data.prev)}" title="Episode Sebelumnya">\<\<\<</a></div>`
+    if(data.next != "") nav += `<div class="nav"><a href="${getUrl(data.next)}" title="Episode Berikutnya">\>\>\></a></div>`
     
     const d = {
       title, video, server, episod, nav

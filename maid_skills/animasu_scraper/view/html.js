@@ -93,10 +93,20 @@ const h = (content, title) => { return `
       color:#aaa;
     }
     .stream_container {
-        width: 100%;
-        aspect-ratio: 16 / 9;
-        max-width: 600px;
-        border-radius: 0.5rem;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      max-width: 600px;
+      border-radius: 0.5rem;
+      position: relative;
+      display: grid;
+      place-items: center;
+    }
+    .loader {
+      position: absolute;
+      z-index: -1;
+      font-size: 1.5rem;
+      color: #d0d0d0;
+      font-weight: bold;
     }
     iframe {
       width: 100%;

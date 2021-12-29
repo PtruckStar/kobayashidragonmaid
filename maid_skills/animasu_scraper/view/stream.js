@@ -13,7 +13,8 @@ module.exports = (data) => {
 
   return `
   <div class="stream_container shadow">
-    <iframe id="stream" src="${data.video}"  width="480" height="360"></iframe>
+    <iframe id="stream" src="${data.video}"></iframe>
+    <span class="loader">Sedang memuat anime anda...</span>
   </div>
   ${nav}
   <div class="stream_info shadow">
@@ -26,10 +27,10 @@ module.exports = (data) => {
     ${eps}
   </div>
   <script type="text/javascript">
-      function newSrc() {
-        var e = document.getElementById("server");
-        var newSrc = e.options[e.selectedIndex].value;
-        document.getElementById("stream").src=newSrc;
-      }
+    function newSrc() {
+      var e = document.getElementById("server");
+      var newSrc = e.options[e.selectedIndex].value;
+      document.getElementById("stream").src=newSrc;
+    }
   </script>`;
 };
