@@ -1,52 +1,52 @@
 const h = (content, title) => { return `
-<html>
-<head>
-<title>${title}</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<style>
-  body {
-    background-color: #f1f1f1;
-    font-family: sans-serif;
-  }
-  a {
-    text-decoration: none;
-  }
-  #content {
-    display: grid;
-    place-items: center;
-    justify-items: center;
-  }
-  .list-wraper {
-    max-width: 600px;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0.5rem;
-    justify-content: stretch;
-  }
-  a.list {
-    text-decoration: none;
-    font-family: sans-serif;
-    color: black;
-    overflow: hidden;
-    padding-bottom: 0.5rem;
-    background-color: white;
-    border-radius: 0.5rem;
-    display: block;
-  }
-  a.list > img {
-    width: 100%;
-    margin-bottom: 0.5rem;
-  }
-  a.list > h3 {
-    margin: 0;
-    padding: 0 0.5rem;
-  }
-  a.list > span {
-    font-size: 0.75rem;
-    padding: 0 0.5rem;
-  }
-  
-  form {
+  <html>
+  <head>
+  <title>${title}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      background-color: #f1f1f1;
+      font-family: sans-serif;
+    }
+    a {
+      text-decoration: none;
+    }
+    #content {
+      display: grid;
+      place-items: center;
+      justify-items: center;
+    }
+    .list-wraper {
+      max-width: 600px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.5rem;
+      justify-content: stretch;
+    }
+    a.list {
+      text-decoration: none;
+      font-family: sans-serif;
+      color: black;
+      overflow: hidden;
+      padding-bottom: 0.5rem;
+      background-color: white;
+      border-radius: 0.5rem;
+      display: block;
+    }
+    a.list > img {
+      width: 100%;
+      margin-bottom: 0.5rem;
+    }
+    a.list > h3 {
+      margin: 0;
+      padding: 0 0.5rem;
+    }
+    a.list > span {
+      font-size: 0.75rem;
+      padding: 0 0.5rem;
+    }
+    
+    form {
       width: 100%;
       background-color: white;
       border-radius: 0.5rem;
@@ -54,15 +54,21 @@ const h = (content, title) => { return `
       margin: 1em 0;
       overflow: hidden;
       max-width: 600px;
+      }
+    input:focus {
+      border: none;
+      outline: none;
     }
-  input[type="text"] {
+    input[type="text"] {
       width: 70%;
       border: none;
       height: 2rem;
       font-size: 1em;
-    }
-  input[type="submit"] {
+      margin-left: 0.5rem;
+      }
+    input[type="submit"] {
       background-color: #3478F6;
+      color: white;
       -webkit-appearance: none;
       appearance: none;
       border-radius: 0;
@@ -70,10 +76,11 @@ const h = (content, title) => { return `
       float: right;
       height: 2rem;
       margin: 0;
+      padding: 0 0.5rem;
       font-size: 1em;
     }
-    
-  .stream {
+      
+    .stream_info {
       background-color: white;
       border-radius: 0.5rem;
       overflow: hidden;
@@ -82,16 +89,22 @@ const h = (content, title) => { return `
       max-width: 600px;
       box-sizing: border-box;
     }
-    .stream > p {
+    .stream_info > p {
       color:#aaa;
+    }
+    .stream_container {
+        width: 100%;
+        aspect-ratio: 16 / 9;
+        max-width: 600px;
+        border-radius: 0.5rem;
     }
     iframe {
       width: 100%;
+      height: 100%;
       border: none;
       border-radius: 0.5rem;
       margin:0;
       padding:0;
-      background-color: black;
       max-width: 600px;
     }
     h3 {
@@ -130,8 +143,8 @@ const h = (content, title) => { return `
       border-bottom: dashed 1px black;
       display: block;
     }
-    
-  .navbar {
+      
+    .navbar {
       display: flex;
       justify-content: center;
       gap: 1em;
@@ -151,56 +164,55 @@ const h = (content, title) => { return `
     .nav > a {
       color: #3478F6;
     }
-    
-  #footer {
+      
+    #footer {
       margin: 2rem;
       text-align: center;
       color: #D0D0D0;
     }
-  .notfound {
-    font-size: 3rem;
-    color: #D0D0D0;
-    text-align: center;
-    vertical-align: middle;
-    margin-top:3rem
-  }
-  
-  #nextbtn {
-    background-color: #3478F6;
-    color: white;
-    font-size: 1em;
-    margin-top: 1rem;
-    padding: 0.5rem;
-    border: none;
-    border-radius: 0.5rem;
-  }
-  
-  .shadow {
-    box-shadow: 
-      -5px -5px 5px -3px #E4E4E4,
-      5px 5px 5px -3px #E4E4E4;
-  }
-  
-  @media(min-width:48em) {
-    .list-wraper {
-      grid-template-columns: 1fr 1fr 1fr;
+    .notfound {
+      font-size: 3rem;
+      color: #D0D0D0;
+      text-align: center;
+      vertical-align: middle;
+      margin-top:3rem
     }
-  }
-</style>
-</head>
-<body>
+    
+    #nextbtn {
+      background-color: #3478F6;
+      color: white;
+      font-size: 1em;
+      margin-top: 1rem;
+      padding: 0.5rem;
+      border: none;
+      border-radius: 0.5rem;
+    }
+    
+    .shadow {
+      box-shadow: 
+        -5px -5px 5px -3px #E4E4E4,
+        5px 5px 5px -3px #E4E4E4;
+    }
+    
+    @media(min-width:48em) {
+      .list-wraper {
+        grid-template-columns: 1fr 1fr 1fr;
+      }
+    }
+  </style>
+  </head>
+  <body>
+  
+  <div id="content">
+    ${content}
+  </div>
+  
+  <div id="footer">
+    <p>rahayu.</p>
+  </div>
+  
+  </body>
+  </html>`
+};
 
-<div id="content">
-  ${content}
-</div>
-
-<div id="footer">
-  <p>rahayu.</p>
-</div>
-
-</body>
-</html>
-`}
-
-
-module.exports = h
+module.exports = h;
