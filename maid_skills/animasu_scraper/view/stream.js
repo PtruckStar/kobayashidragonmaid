@@ -2,7 +2,7 @@ module.exports = (data) => {
   let nav = `<div class="navbar shadow">${data.nav}</div>`;
   let eps = `<h3>Episode</h3><br>
    <div class="eps_list_wraper">
-     <div class="eps_list">${data.episod.join("")}</div>
+     <ul class="eps_list">${data.episod.join("")}</ul>
    </div>`;
 
   if (data.title.includes("Movie") || data.episod.length <= 1) {

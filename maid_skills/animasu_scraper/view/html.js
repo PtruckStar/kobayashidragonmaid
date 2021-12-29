@@ -4,8 +4,17 @@ const h = (content, title) => { return `
   <title>${title}</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
+    :root {
+      --background: #1D1D1D;
+      --foreground: #0C0C0C;
+      --lighten: #060606;
+      --blues: #3559a2;
+      --shadow: #151515;
+      --text: #d1d1d1;
+      --subtext: gray;
+    }
     body {
-      background-color: #f1f1f1;
+      background-color: var(--background);
       font-family: sans-serif;
     }
     a {
@@ -26,10 +35,10 @@ const h = (content, title) => { return `
     a.list {
       text-decoration: none;
       font-family: sans-serif;
-      color: black;
+      color: var(--text);
       overflow: hidden;
       padding-bottom: 0.5rem;
-      background-color: white;
+      background-color: var(--foreground);
       border-radius: 0.5rem;
       display: block;
     }
@@ -48,7 +57,7 @@ const h = (content, title) => { return `
     
     form {
       width: 100%;
-      background-color: white;
+      background-color: var(--foreground);
       border-radius: 0.5rem;
       padding: 0;
       margin: 1em 0;
@@ -65,9 +74,11 @@ const h = (content, title) => { return `
       height: 2rem;
       font-size: 1em;
       margin-left: 0.5rem;
-      }
+      background: transparent;
+      color: var(--subtext);
+    }
     input[type="submit"] {
-      background-color: #3478F6;
+      background-color: var(--blues);
       color: white;
       -webkit-appearance: none;
       appearance: none;
@@ -81,7 +92,7 @@ const h = (content, title) => { return `
     }
       
     .stream_info {
-      background-color: white;
+      background-color: var(--foreground);
       border-radius: 0.5rem;
       overflow: hidden;
       padding: 1rem;
@@ -90,7 +101,7 @@ const h = (content, title) => { return `
       box-sizing: border-box;
     }
     .stream_info > p {
-      color:#aaa;
+      color: var(--subtext);
     }
     .stream_container {
       width: 100%;
@@ -105,7 +116,7 @@ const h = (content, title) => { return `
       position: absolute;
       z-index: -1;
       font-size: 1.5rem;
-      color: #d0d0d0;
+      color: var(--lighten);
       font-weight: bold;
     }
     iframe {
@@ -120,38 +131,49 @@ const h = (content, title) => { return `
     h3 {
       margin:0;
       padding:0;
+      color: var(--text)
     }
     
     .eps_list_wraper {
       padding:0;
       margin:0;
     }
-    .eps_list {
+    ul.eps_list {
+      list-style: none;
       width: 100%;
       height: 15rem;
       overflow-y: scroll;
+      padding: 0;
     }
-    .eps_list :nth-child(2n+1) {
-      background-color: #f1f1f1;
+    ul.eps_list > li {
+      line-height: 2;
+      height: 2rem;
+      padding: 0.5rem;
+      border-bottom: dashed 1px var(--subtext);
+      display: block;
+      color: var(--subtext);
     }
-    .eps_list > div > a {
+    ul.eps_list > li:nth-of-type(odd) {
+      background-color: var(--background);
+    }
+    ul.eps_list > li > a {
       float: right;
-      color: #3478F6;
+      color: var(--blues);
+      display: flex;
+      align-items: center;
     }
-    .eps_list > div > span {
+    ul.eps_list > li > span {
       text-overflow: ellipsis; 
       overflow: hidden; 
       white-space: nowrap;
       display: inline-block;
     }
-    .eps_list > div > span > i {
-      color: #3478F6;
+    ul.eps_list > li > span > i {
+      color: var(--blues);
     }
-    .eps_list > div {
-      height: 1.5rem;
-      padding: 0.5rem;
-      border-bottom: dashed 1px black;
-      display: block;
+    .play_svg {
+      width: 1.5rem;
+      padding: 0 0.5rem;
     }
       
     .navbar {
@@ -159,7 +181,7 @@ const h = (content, title) => { return `
       justify-content: center;
       gap: 1em;
       height: 2.5rem;
-      background-color: white;
+      background-color: var(--foreground);
       border-radius: 0.5rem;
       overflow: hidden;
       margin-top: 0.5rem;
@@ -172,24 +194,24 @@ const h = (content, title) => { return `
       text-align: center;
     }
     .nav > a {
-      color: #3478F6;
+      color: var(--blues);
     }
       
     #footer {
       margin: 2rem;
       text-align: center;
-      color: #D0D0D0;
+      color: var(--lighten);
     }
     .notfound {
       font-size: 3rem;
-      color: #D0D0D0;
+      color: var(--lighten);
       text-align: center;
       vertical-align: middle;
       margin-top:3rem
     }
     
     #nextbtn {
-      background-color: #3478F6;
+      background-color: var(--blues);
       color: white;
       font-size: 1em;
       margin-top: 1rem;
@@ -200,8 +222,8 @@ const h = (content, title) => { return `
     
     .shadow {
       box-shadow: 
-        -5px -5px 5px -3px #E4E4E4,
-        5px 5px 5px -3px #E4E4E4;
+        -5px -5px 5px -3px var(--shadow),
+        5px 5px 5px -3px var(--shadow);
     }
     
     @media(min-width:48em) {

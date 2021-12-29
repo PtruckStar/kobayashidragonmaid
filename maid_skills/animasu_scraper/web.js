@@ -64,12 +64,8 @@ async function web_animasu(req, res) {
       server += `<option value="${i.src}">${i.res}</option>`
     })
     
-    let episod = new Array()
-    await data.episodes.map((i, x)=> {
-      let s = (x == 0) ? `<i> ${status}</i>` : ""
-      episod.push(`<div><span>${i.title + s}</span><a href="${getUrl(i.url)}">play</a></div>`)
-    })
-    
+    let episod = await require("./view/episode_list")(data.episodes, status, getUrl);
+
     let nav = new String()
     if(data.prev != "") nav += `<div class="nav"><a href="${getUrl(data.prev)}" title="Episode Sebelumnya">\<\<\<</a></div>`
     if(data.next != "") nav += `<div class="nav"><a href="${getUrl(data.next)}" title="Episode Berikutnya">\>\>\></a></div>`
