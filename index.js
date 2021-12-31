@@ -1,3 +1,4 @@
+const counter = require("./counter")
 const express = require("express");
 const app = express();
 
@@ -7,7 +8,7 @@ app.get("/", (req, res) => {
   res.send(`<meta http-equiv="refresh" content="0; url='/anime'" />`);
 });
 app.get("/anime", animasu.web);
-app.get("/anime/:jutsu", animasu.web);
+app.get("/anime/:jutsu", counter, animasu.web);
 app.get("/animasu/:jutsu", animasu.api);
 
 app.use(function (req, res) {
