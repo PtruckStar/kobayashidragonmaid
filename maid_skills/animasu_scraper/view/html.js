@@ -41,6 +41,9 @@ const h = (content, title) => { return `
     * {
       transition: all 0.5s ease-in;
     }
+    html {
+      scroll-behavior: smooth;
+    }
     body {
       background-color: var(--background);
       font-family: sans-serif;
@@ -48,6 +51,7 @@ const h = (content, title) => { return `
     a {
       text-decoration: none;
     }
+    
     #content {
       display: grid;
       place-items: center;
@@ -68,6 +72,7 @@ const h = (content, title) => { return `
       background-color: var(--foreground);
       border-radius: 0.5rem;
       display: block;
+      animation: jenjen 1s linear;
     }
     a.list > img {
       width: 100%;
@@ -199,7 +204,7 @@ const h = (content, title) => { return `
       display: flex;
       align-items: center;
     }
-    ul.eps_list > li > span {
+    u0l.eps_list > li > span {
       text-overflow: ellipsis; 
       overflow: hidden; 
       white-space: nowrap;
@@ -238,6 +243,7 @@ const h = (content, title) => { return `
       margin: 2rem;
       text-align: center;
       color: var(--lighten);
+      font-weight: bolder;
     }
     .notfound {
       font-size: 3rem;
@@ -245,6 +251,14 @@ const h = (content, title) => { return `
       text-align: center;
       vertical-align: middle;
       margin-top:3rem
+    }
+    #topbtn {
+      color: var(--lighten);
+      font-size: 12px;
+      font-weight: lighter;
+      font-style: italic;
+      text-decoration: underline;
+      display: none;
     }
     
     #nextbtn {
@@ -256,8 +270,31 @@ const h = (content, title) => { return `
       border: none;
       border-radius: 0.5rem;
     }
+    #nextbtn[disabled] {
+      background-color: grey;
+    }
     
-    .color-mode__btn{
+    #recommend {
+      position: relative;
+      z-index: 99;
+      display: block;
+    }
+    #recommend::before {
+      content: "";
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      position: absolute;
+      border: none;
+    }
+    #recommend:hover {
+      text-decoration: underline;
+      text-decoration-style: wavy;
+      text-decoration-color: var(--subtext)
+    }
+    
+    .color-mode__btn {
       border: solid 1px var(--blues);
       border-radius: 0.5rem;
       background-color: var(--foreground);
@@ -278,6 +315,11 @@ const h = (content, title) => { return `
         5px 5px 5px -3px var(--shadow);
     }
     
+    @keyframes jenjen {
+      0% { opacity: 0; }
+      100% {opacity: 1; }
+    }
+    
     @media(min-width:48em) {
       .list-wraper {
         grid-template-columns: 1fr 1fr 1fr;
@@ -292,7 +334,8 @@ const h = (content, title) => { return `
   </div>
   
   <div id="footer">
-    <p>rahayu.</p>
+    <span">rahayu.</span>
+    <a href="#search" id="topbtn">Kembali ke atas⇧</span>
   </div>
   
   <script>
@@ -309,6 +352,23 @@ const h = (content, title) => { return `
   toggleColorButtons.forEach(btn => {
       btn.addEventListener("click", toggleColorMode);
   });
+  
+  /* ---back to top function--- */
+  const topbtn = document.querySelector("#topbtn")
+  window.onscroll = function() {scrollFunction()};
+  
+  function scrollFunction() {
+    if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
+      topbtn.style.display = "block";
+    } else {
+      topbtn.style.display = "none";
+    }
+  }
+  
+  function topFunction() {
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
+  }
   </script>
   
   </body>

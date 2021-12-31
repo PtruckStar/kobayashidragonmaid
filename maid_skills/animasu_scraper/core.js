@@ -2,8 +2,11 @@ const scrapeIt = require("scrape-it");
 const origin = "https://animasu.vip";
 
 //search form
-async function search(s, page) {
-  return await scrapeIt(page != undefined ? origin + `/page/${page}/?s=` + s : origin + "?s=" + s, {
+async function search(s, page, re) {
+  let url = page != undefined ? origin + `/page/${page}/?s=${s}` : origin + `?s=${s}`
+  if(re) url = origin + `/populer/?halaman=${re}`
+  
+  return await scrapeIt(url, {
     list: {
       listItem: ".listupd > div",
       data: {

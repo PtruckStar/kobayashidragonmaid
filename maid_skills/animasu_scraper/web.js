@@ -3,26 +3,29 @@ const html = require("./view/html")
 const view_search = require("./view/search")
 const view_error = require("./view/error")
 const view_stream = require("./view/stream")
+const search_script = require("./view/search_script")
+const make_list = require("./view/search_items")
 
 async function web_animasu(req, res) {
   const queries = req.query
   const params = req.params.jutsu
   const {s, page} = queries
+  const handle_error = (status) => {
+    if (status === 404) {
+      return res.status(status).send(html(view_error, "404: page not found"))
+    }
+    return res.status(status).send(`error code: ${status}`)
+  }
   
   if(params == "search" && s != undefined) {
     const {data, response} = (page != undefined) ? await search(s, page) : await search(s)
-    if(response.statusCode !== 200) return res.status(response.statusCode).send(html(view_error, "404: page not found"))
+    if(response.statusCode !== 200) return handle_error(response.statusCode)
     if(data.list[0].title == "") return res.status(500).send(html(view_search + `<span class="notfound">Not Found...</span>`, `Penelusuran tidak ditemukan untuk ${s}`))
     
-    let list = new Array()
-    await data.list.map(t => {
-      const get_url = new URL(t.url).pathname
-      return list.push(`<a class="list shadow" href="${get_url}"><img src="${t.poster}"><h3 class="list-title">${t.title}</h3><span class="list-info">${t.type}, ${t.eps} ${t.status}</span></a>`)
-    })
-    
+    const list = await make_list(data.list)
     const pageNumber = (data.nextpage != "") ? new URL(data.nextpage).pathname.split("/")[2] : null
     const nextpage = (data.nextpage != "") ? `/anime/search?s=${s}&page=${pageNumber}` : "none"
-    const js = require("./view/search_script")(nextpage)
+    const js = search_script(nextpage)
     
     if(page == undefined) {
       const items = list.join("")
@@ -31,6 +34,16 @@ async function web_animasu(req, res) {
     } else {
       return res.status(200).json({list, nextpage})
     }
+    
+  } else if(params == "recommends") {
+    const {data, response} = await search("", "", page)
+    if(response.statusCode !== 200) return handle_error(response.statusCode)
+    
+    const list = (data.list.length < 1) ? "" : await make_list(data.list)
+    const nextpage = `/anime/recommends?page=${parseInt(page) + 1}`
+    if(list == "") list = [], nextpage = "none";
+    
+    return res.status(200).json({list, nextpage})
     
   } else if(params != undefined) {
     //params become like this: /...title/
@@ -41,7 +54,7 @@ async function web_animasu(req, res) {
       response = next.response
       console.log("next")
     }
-    if(response.statusCode !== 200) return res.status(response.statusCode).send(html(view_error, "404: page not found"))
+    if(response.statusCode !== 200) return handle_error(response.statusCode)
     
     const getUrl = (link) => {
       const u = new URL(link).pathname
@@ -79,7 +92,9 @@ async function web_animasu(req, res) {
     
   } else {
     console.log({queries, params})
-    return res.status(200).send(html(`<div style="height:90vh;width:100%;display:grid;place-items:center;">${view_search}</div>`, "Nonton anime gratis subtitle indonesia!"))
+    const js = search_script("/anime/recommends?page=1")
+    const main = require("./view/main_page")({view_search, js})
+    return res.status(200).send(html(main, "Nonton anime gratis subtitle indonesia!"))
   }
 }
 
