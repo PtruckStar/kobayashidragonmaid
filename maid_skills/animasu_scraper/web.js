@@ -63,6 +63,7 @@ async function web_animasu(req, res) {
     
     const title = data.title
     const status = data.status
+    const poster = data.poster
     
     let video
     try {
@@ -88,13 +89,13 @@ async function web_animasu(req, res) {
     }
     const page_title = params.split("-").join(" ")
     
-    return res.status(200).send(html(view_search + view_stream(d), page_title))
+    return res.status(200).send(html(view_search + view_stream(d), page_title, poster))
     
   } else {
     console.log({queries, params})
     const js = search_script("/anime/recommends?page=1")
     const main = require("./view/main_page")({view_search, js})
-    return res.status(200).send(html(main, "Nonton anime gratis subtitle indonesia!"))
+    return res.status(200).send(html(main))
   }
 }
 

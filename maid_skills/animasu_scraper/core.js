@@ -106,6 +106,10 @@ async function play(anime, next = false) {
 
   return await scrapeIt(encodeURI(origin + "/" + anime), {
     title: "h1",
+    poster: {
+      selector: "img.attachment-post-thumbnail",
+      attr: "src"
+    },
     video: {
       listItem: ".video-nav > div > select > option",
       data: {
