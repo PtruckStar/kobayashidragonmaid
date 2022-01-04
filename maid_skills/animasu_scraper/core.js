@@ -1,11 +1,27 @@
 const scrapeIt = require("scrape-it");
 const origin = "https://animasu.vip";
 
+//fix video source
+function fixSource(src) {
+  if (src.includes("uservideo.in")) {
+    src = src.replace(".in", ".xyz");
+  } else if (src.includes("uservideo.nanime.in")) {
+    src = src.replace(".nanime.in", ".xyz");
+  } else if (src.includes("nanime.yt")) {
+    src = src.replace(".yt", ".in");
+  } else if (src.includes("naniplay")) {
+    src = src.replace("nanime.in", "nanime.biz");
+    src = src.replace("naniplay.in", "naniplay.biz");
+  }
+  
+  return src
+}
+
 //search form
 async function search(s, page, re) {
-  let url = page != undefined ? origin + `/page/${page}/?s=${s}` : origin + `?s=${s}`
-  if(re) url = origin + `/populer/?halaman=${re}`
-  
+  let url = page != undefined ? origin + `/page/${page}/?s=${s}` : origin + `?s=${s}`;
+  if (re) url = origin + `/populer/?halaman=${re}`;
+
   return await scrapeIt(url, {
     list: {
       listItem: ".listupd > div",
@@ -71,7 +87,10 @@ async function stream(src) {
             let s = scrapeIt.scrapeHTML(encode, {
               url: {
                 selector: "iframe",
-                attr: "src"
+                attr: "src",
+                convert: src => {
+                  return fixSource(src)
+                }
               }
             });
             return s.url;
@@ -85,24 +104,24 @@ async function stream(src) {
 //web special api
 async function play(anime, next = false) {
   if (!anime.startsWith("nonton") && !next) anime = "nonton-" + anime;
-  
+
   if (next) {
     await scrapeIt(encodeURI(origin + "/" + anime), {
       url: {
         selector: ".bigcover > div > a",
         attr: "href",
         convert: d => {
-          let u = new URL(d).pathname
-          return u.replace("/", "")
+          let u = new URL(d).pathname;
+          return u.replace("/", "");
         }
       }
     })
-    .then(({data})=> anime = data.url)
-    .catch(e=>{
-      return {response:404, data:"error"}
-    })
+      .then(({data}) => (anime = data.url))
+      .catch(e => {
+        return {response: 404, data: "error"};
+      });
   }
-  console.log(anime)
+  console.log(anime);
 
   return await scrapeIt(encodeURI(origin + "/" + anime), {
     title: "h1",
@@ -124,7 +143,10 @@ async function play(anime, next = false) {
             let s = scrapeIt.scrapeHTML(encode, {
               url: {
                 selector: "iframe",
-                attr: "src"
+                attr: "src",
+                convert: src => {
+                  return fixSource(src)
+                }
               }
             });
             return s.url;
@@ -145,17 +167,17 @@ async function play(anime, next = false) {
     status: {
       selector: ".releases",
       convert: i => {
-        if(i.includes("Selesai")) return "Selesai."
-        if(i.includes("Sedang Tayang")) return "Bersambung..."
+        if (i.includes("Selesai")) return "Selesai.";
+        if (i.includes("Sedang Tayang")) return "Bersambung...";
       }
     },
     next: {
       selector: ".naveps :nth-child(3)",
       how: "html",
       convert: i => {
-        if(i === null||/Selesai/.test(i)||/Tunggu/.test(i)) return ""
-        const j = scrapeIt.scrapeHTML(i, {url: {selector: "a",attr: "href"}});
-        return j.url
+        if (i === null || /Selesai/.test(i) || /Tunggu/.test(i)) return "";
+        const j = scrapeIt.scrapeHTML(i, {url: {selector: "a", attr: "href"}});
+        return j.url;
       }
     },
     prev: {
