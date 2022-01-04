@@ -8,7 +8,6 @@
   },
   "dependencies": {
     "express": "^4.17.2",
-    "node-fetch": "^2.6.6",
     "scrape-it": "^5.3.2"
   },
   "keywords": [],

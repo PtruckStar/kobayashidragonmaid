@@ -13,7 +13,7 @@ module.exports = (data) => {
 
   return `
   <div class="stream_container shadow">
-    <iframe id="stream" src="${data.video}"></iframe>
+    <iframe id="stream" src="${data.video}" allow="fullscreen"></iframe>
     <span class="loader">Sedang memuat anime anda...</span>
   </div>
   ${nav}
