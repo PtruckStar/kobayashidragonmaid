@@ -82,13 +82,6 @@ const h = (content, title, poster) => {
       display: block;
       animation: jenjen 1s linear;
     }
-    a.list:hover {
-      transform: scale(1.1, 1.1);
-      transition: 0.2s ease-in;
-      box-shadow: 
-        -10px -10px 20px -7px var(--blues),
-        10px 10px 20px -7px var(--blues);
-    }
     a.list > img {
       width: 100%;
       margin-bottom: 0.5rem;
@@ -420,6 +413,13 @@ const h = (content, title, poster) => {
     @media(min-width:48em) {
       .list-wraper {
         grid-template-columns: 1fr 1fr 1fr;
+      }
+      a.list:hover {
+        transform: scale(1.1, 1.1);
+        transition: 0.2s ease-in;
+        box-shadow: 
+          -10px -10px 20px -7px var(--blues),
+          10px 10px 20px -7px var(--blues);
       }
     }
   </style>
