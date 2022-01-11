@@ -87,9 +87,8 @@ async function web_animasu(req, res) {
     const d = {
       title, video, server, episod, nav
     }
-    const page_title = params.split("-").join(" ")
     
-    return res.status(200).send(html(view_search + view_stream(d), page_title, poster))
+    return res.status(200).send(html(view_search + view_stream(d), title, poster))
     
   } else {
     console.log({queries, params})

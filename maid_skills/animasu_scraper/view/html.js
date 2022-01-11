@@ -1,11 +1,38 @@
 const h = (content, title, poster) => {
   if(title && !title.includes("hasil penelusuran") && !title.includes("nonton")) title = "Nonton " + title
+  //bc making regExp pattern is dificult hehe
+  const ogTitle = (i) => {
+    if(i.startsWith("Nonton")) i = i.replace("Nonton ", "")
+    if(i.includes("Season")) i = i.substring(0, i.indexOf("Season") - 1)
+    if(/Episode\s\d/.test(i)) i = i.substring(0, i.indexOf("Episode") - 1)
+    if(i.includes("Sub Indo")) i = i.replace(" Sub Indo", "")
+    return i
+  }
+  
+  const ogDes = (i) => {
+    if(i.includes("Season")){
+      i = i.substring(i.indexOf("Season"), i.length)
+      i = i.replace(" Sub Indo", "")
+    } else if(/Episode\s\d/.test(i)) {
+      i = i.substring(i.indexOf("Episode"), i.length)
+      i = i.replace(" Sub Indo", "")
+    } else if(i.includes("Movie")) {
+      i = "Movie"
+    } else {
+      i = "Special Episode"
+    }
+    return i
+  }
+  
   return `
   <html color-mode="light">
   <head>
-  <title>${(title)? title + " subtitle indonesia" : "Nonton anime gratis subtitle indonesia!"}</title>
-  <meta name="description" content="${(title)? title : "Nonton anime"} gratis subtitle indonesia tanpa iklan semuan seri lengkap update tiap hari" />
+  <title>${(title)? title : "Nonton anime gratis subtitle indonesia!"}</title>
+  ${(title)? `<meta property="og:title" content="${ogTitle(title)}">` : ""}
+  <meta name="og:description" content="${(title)? ogDes(title) + " Subtitle Indonesia" : "Nonton anime gratis, Tanpa iklan, Subtitle indonesia, Semuan seri lengkap! update tiap hari!!"}">
   ${(poster)? `<meta property="og:image" content="${poster}">` : ""}
+  <meta property="og:url" content="https://kobayashidragonmaid.herokuapp.com/anime/">
+  <meta property="og:type" content="video.tv_show" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script>
     if (
@@ -48,6 +75,8 @@ const h = (content, title, poster) => {
       transition-property: color, background, ovacity, box-shadow;
       transition-duration: 0.5s;
       transition-timing-function: ease-in;
+      padding: 0;
+      margin: 0;
     }
     html {
       scroll-behavior: smooth;
@@ -64,6 +93,7 @@ const h = (content, title, poster) => {
       display: grid;
       place-items: center;
       justify-items: center;
+      padding: 0 0.5rem;
     }
     .list-wraper {
       max-width: 600px;
@@ -245,13 +275,7 @@ const h = (content, title, poster) => {
     .nav > a {
       color: var(--blues);
     }
-      
-    footer {
-      margin: 2rem;
-      text-align: center;
-      color: var(--lighten);
-      font-weight: bolder;
-    }
+    
     .notfound {
       font-size: 3rem;
       color: var(--lighten);
@@ -259,26 +283,90 @@ const h = (content, title, poster) => {
       vertical-align: middle;
       margin-top:3rem
     }
-    #topbtn {
+      
+    footer {
+      text-align: center;
       color: var(--lighten);
-      font-size: 12px;
+      font-weight: bolder;
+      padding: 2rem;
+    }
+    .social_items {
+      display: flex;
+      align-items: center;
+      justify-content: center;
       font-weight: lighter;
-      font-style: italic;
-      text-decoration: underline;
-      display: none;
+      width: 100%;
+      color: var(--lighten)
+    }
+    .social_items svg {
+      fill: var(--lighten);
+      padding: 0 0.5rem;
     }
     
+    .nav_wraper {
+      width: 100%;
+      margin-top: 1rem;
+      margin-bottom: 2rem;
+      position: relative;
+      padding: 0;
+    } 
+    .nextbtn_wraper {
+      width: 100%;
+      position: absolute;
+      display: grid;
+      place-items: center;
+    }
+    .topbtn_wraper {
+      width: 100%;
+      position: absolute;
+      right: 0;
+      display: none;
+    }
+    .topbtn_mid_wraper {
+      width: 100%;
+      display: grid;
+      place-items: center;
+    }
+    .topbtn_inner_wraper {
+      width: 100%;
+      max-width: 600px;￼            
+    }
+    .make_it_fly {
+      position: fixed;
+      right: 0;
+      bottom: 2rem;
+      margin: 0 0.5rem;
+    }
+    #topbtn {
+      background-color: var(--dismiss);
+      color: white;
+      border: none;
+      border-radius: 0.5rem;
+      padding: 0.5rem;
+      margin-right: 2rem;
+      font-size: 1em !important;
+      z-index: 99;
+      float: right;
+    }
     #nextbtn {
       background-color: var(--blues);
       color: white;
       font-size: 1em;
-      margin-top: 1rem;
       padding: 0.5rem;
       border: none;
       border-radius: 0.5rem;
+      z-index: 99;
     }
     #nextbtn[disabled] {
       background-color: grey;
+    }
+    .ghost {
+      font-size: 1em;
+      padding: 0.5rem;
+      border: none;
+      border-radius: 0.5rem;
+      background-color: grey;
+      visibility: hidden;
     }
     
     #recommend {
@@ -421,6 +509,9 @@ const h = (content, title, poster) => {
           -10px -10px 20px -7px var(--blues),
           10px 10px 20px -7px var(--blues);
       }
+      .make_it_fly {
+        margin: 0;
+      }
     }
   </style>
   </head>
@@ -443,8 +534,15 @@ const h = (content, title, poster) => {
   </main>
   
   <footer>
-    <span">rahayu.</span>
-    <a href="#search" id="topbtn">Kembali ke atas⇧</a>
+    <span">rahayu.</span><br>
+    <section class="social_items">
+      <a class="social_items" href="https://instagram.com/touru_anime" target="_blank" rel="noopener noreferrer" title="klik ke instagram @touru_anime">
+        <svg style="fill:var(--lighten)" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24">
+          <path d="M15.233 5.488c-.843-.038-1.097-.046-3.233-.046s-2.389.008-3.232.046c-2.17.099-3.181 1.127-3.279 3.279-.039.844-.048 1.097-.048 3.233s.009 2.389.047 3.233c.099 2.148 1.106 3.18 3.279 3.279.843.038 1.097.047 3.233.047 2.137 0 2.39-.008 3.233-.046 2.17-.099 3.18-1.129 3.279-3.279.038-.844.046-1.097.046-3.233s-.008-2.389-.046-3.232c-.099-2.153-1.111-3.182-3.279-3.281zm-3.233 10.62c-2.269 0-4.108-1.839-4.108-4.108 0-2.269 1.84-4.108 4.108-4.108s4.108 1.839 4.108 4.108c0 2.269-1.839 4.108-4.108 4.108zm4.271-7.418c-.53 0-.96-.43-.96-.96s.43-.96.96-.96.96.43.96.96-.43.96-.96.96zm-1.604 3.31c0 1.473-1.194 2.667-2.667 2.667s-2.667-1.194-2.667-2.667c0-1.473 1.194-2.667 2.667-2.667s2.667 1.194 2.667 2.667zm4.333-12h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm.952 15.298c-.132 2.909-1.751 4.521-4.653 4.654-.854.039-1.126.048-3.299.048s-2.444-.009-3.298-.048c-2.908-.133-4.52-1.748-4.654-4.654-.039-.853-.048-1.125-.048-3.298 0-2.172.009-2.445.048-3.298.134-2.908 1.748-4.521 4.654-4.653.854-.04 1.125-.049 3.298-.049s2.445.009 3.299.048c2.908.133 4.523 1.751 4.653 4.653.039.854.048 1.127.048 3.299 0 2.173-.009 2.445-.048 3.298z"/>
+        </svg>
+        <span>@touru_anime</span>
+      </a>
+    </section>
   </footer>
   
   <script>
@@ -462,32 +560,15 @@ const h = (content, title, poster) => {
       btn.addEventListener("click", toggleColorMode);
   });
   
-  /* ---back to top function--- */
-  const topbtn = document.querySelector("#topbtn")
-  window.onscroll = function() {scrollFunction()};
-  
-  function scrollFunction() {
-    if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
-      topbtn.style.display = "block";
-    } else {
-      topbtn.style.display = "none";
-    }
-  }
-  
-  function topFunction() {
-    document.body.scrollTop = 0;
-    document.documentElement.scrollTop = 0;
-  }
-  
   /* ---sns notifications--- */
   const toast = document.querySelector(".toast_wraper");
   const today = new Date()
-
+  
   window.addEventListener("load", () => {
     const s = localStorage.getItem("snsK");
     if(s === undefined || s === null) {
       toast.style.display = "grid";
-    } else if(new Date(Date.parse(s) + (7 * 24 * 60 * 60 * 1000)) <= today) {
+    } else if(new Date(Date.parse(s) + (14 * 24 * 60 * 60 * 1000)) <= today) {
       toast.style.display = "grid";
       localStorage.setItem("snsK", date);
     } else {

@@ -22,7 +22,7 @@ async function search(s, page, re) {
   let url = page != undefined ? origin + `/page/${page}/?s=${s}` : origin + `?s=${s}`;
   if (re) url = origin + `/populer/?halaman=${re}`;
 
-  return await scrapeIt(url, {
+  return await scrapeIt(encodeURI(url), {
     list: {
       listItem: ".listupd > div",
       data: {
