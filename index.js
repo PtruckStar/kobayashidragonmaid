@@ -12,7 +12,7 @@ app.get("/anime/:jutsu", animasu.web);
 app.get("/animasu/:jutsu", animasu.api);
 
 app.get("/subtitles", websub)
-app.get("/subtitles/last", websub.recent)
+app.get("/subtitles/recent", websub.recent)
 
 app.use(function (req, res) {
   res.status(404);

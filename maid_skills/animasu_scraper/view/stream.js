@@ -1,6 +1,6 @@
 module.exports = (data) => {
   let nav = `<div class="navbar shadow">${data.nav}</div>`;
-  let eps = `<h3>Episode</h3><br>
+  let eps = `<h3>Episode</h3>
    <div class="eps_list_wraper">
      <ul class="eps_list">${data.episod.join("")}</ul>
    </div>`;
@@ -17,15 +17,17 @@ module.exports = (data) => {
     <span class="loader">Sedang memuat anime anda...</span>
   </div>
   ${nav}
-  <div class="stream_info shadow">
-    <h3>${data.title}</h3>
-    <p>Jika terjadi masalah saat memutar video, coba gunakan server lain:
-      <select id="server" onchange="newSrc()">
-        ${data.server}
-      </select>
-    jika sakit berlanjut hubungi dokter.</p>
-    ${eps}
-  </div>
+  <section class="stream_info shadow">
+    <div class="info_wrapper">
+      <h3>${data.title}</h3>
+      <p>Jika terjadi masalah saat memutar video, coba gunakan server lain:
+        <select id="server" onchange="newSrc()">
+          ${data.server}
+        </select>
+      jika sakit berlanjut hubungi dokter.</p>
+      ${eps}
+    </div>
+  </section>
   <script type="text/javascript">
     function newSrc() {
       var e = document.getElementById("server");
