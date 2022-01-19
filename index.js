@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 
 const animasu = require("./maid_skills/animasu_scraper");
+const websub = require("./maid_skills/websub")
 
 app.get("/", (req, res) => {
   res.send(`<meta http-equiv="refresh" content="0; url='/anime'" />`);
@@ -9,6 +10,9 @@ app.get("/", (req, res) => {
 app.get("/anime", animasu.web);
 app.get("/anime/:jutsu", animasu.web);
 app.get("/animasu/:jutsu", animasu.api);
+
+app.get("/subtitles", websub)
+app.get("/subtitles/last", websub.recent)
 
 app.use(function (req, res) {
   res.status(404);
