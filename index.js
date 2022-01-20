@@ -4,6 +4,8 @@ const app = express();
 const animasu = require("./maid_skills/animasu_scraper");
 const websub = require("./maid_skills/websub")
 
+app.use(express.static("dist"));
+
 app.get("/", (req, res) => {
   res.send(`<meta http-equiv="refresh" content="0; url='/anime'" />`);
 });

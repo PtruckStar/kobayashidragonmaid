@@ -5,7 +5,7 @@ module.exports = (data) => {
      <ul class="eps_list">${data.episod.join("")}</ul>
    </div>`;
 
-  if (data.title.includes("Movie") || data.episod.length <= 1) {
+  if (data.title.includes("Movie") || data.episod.length < 1) {
     (nav = ""), (eps = "");
   }
   if (data.video === "")

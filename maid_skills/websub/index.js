@@ -6,21 +6,17 @@ const convert = require("./converter");
 const work_path = __dirname + "/temp/";
 
 async function main(req, res) {
-  //clear prev temporary file
-  fs.readdir(work_path, (err, files) => {
-    if (err) throw err;
-    for (const file of files) {
-      fs.unlink(work_path + file, err => {
-        if (err) throw err;
-      });
-    }
-  });
-  
   const {url} = req.query;
   const handleError = error => {
     console.log(error);
-    res.status(500).json({ok: false, msg: error.message});
+    return res.status(500).json({ok: false, msg: error.message});
   };
+  
+  if(url === undefined || url === null) return handleError(Error("no url"))
+  await init(function(e) {
+    if(e) return handleError(e)
+  });
+  
   const downloader = new Downloader({
     url,
     directory: work_path, //Sub directories will also be automatically created if they do not exist.
@@ -41,22 +37,37 @@ async function main(req, res) {
     });
     const srt = await fs.readFileSync(work_path + files[0], "utf8");
     const vtt = await convert(srt);
-    await fs.writeFileSync(work_path + "sub.vtt", vtt, 'utf8')
-    return res.status(200).download(work_path + "sub.vtt")
+    await fs.writeFileSync(work_path + "sub.vtt", vtt, "utf8");
+    return res.status(200).download(work_path + "sub.vtt");
   } catch (error) {
     return handleError(error);
   }
 }
 
 async function recentAddSub(req, res) {
-  const sub = work_path + "sub.vtt"
-  fs.access(sub, fs.constants.F_OK, (err) => {
-    if(err) res.status(404).json({ok: false, msg: "gak ada file subtitle cok"})
-    res.status(200).download(sub)
+  const sub = work_path + "sub.vtt";
+  fs.access(sub, fs.constants.F_OK, err => {
+    if (err) res.status(404).json({ok: false, msg: "gak ada file subtitle cok"});
+    res.status(200).download(sub);
   });
 }
 
-module.exports = main
-module.exports.recent = recentAddSub
+async function init(cb) {
+  try {
+    if (!fs.existsSync(work_path)) fs.mkdirSync(work_path);
+    //clear prev temporary file
+    fs.readdir(work_path, (err, files) => {
+      if (err) throw err;
+      for (const file of files) {
+        fs.unlink(work_path + file, err => {
+          if (err) throw err;
+        });
+      }
+    });
+  } catch (e) {
+    return cb(e);
+  }
+}
 
-
+module.exports = main;
+module.exports.recent = recentAddSub;
