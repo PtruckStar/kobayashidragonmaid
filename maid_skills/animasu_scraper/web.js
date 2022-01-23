@@ -92,9 +92,8 @@ async function web_animasu(req, res) {
     
   } else {
     console.log({queries, params})
-    const {data, response} = await search("", "", 1)
-    const hero = require("./view/hero")(data.list)
-    const main = require("./view/main_page")({view_search, hero})
+    const js = search_script("/anime/recommends?page=1")
+    const main = require("./view/main_page")({view_search, js})
     return res.status(200).send(html(main))
   }
 }

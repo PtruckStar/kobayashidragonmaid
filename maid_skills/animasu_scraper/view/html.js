@@ -57,7 +57,6 @@ const h = (content, title, poster) => {
       --text: #d1d1d1;
       --subtext: gray;
       --dismiss: #c62a5e;
-      --blur: rgba(0, 0, 0, 0.25);
     }
     :root[color-mode="light"] {
       --background: #f1f1f1;
@@ -68,7 +67,6 @@ const h = (content, title, poster) => {
       --text: black;
       --subtext: #444;
       --dismiss: #ed0a5a;
-      --blur: rgba(225, 225, 225, 0.25);
     }
     :root[color-mode="light"] .light--hidden {
         display: none;
