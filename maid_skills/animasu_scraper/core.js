@@ -18,17 +18,17 @@ function fixSource(src) {
 }
 
 //search form
-async function search(s, page, re) {
-  let url = page != undefined ? origin + `/page/${page}/?s=${s}` : origin + `?s=${s}`;
-  if (re) url = origin + `/populer/?halaman=${re}`;
+async function search(data = {}) {
+  let url = data.page != undefined ? origin + `/page/${data.page}/?s=${data.search}` : origin + `?s=${data.search}`;
+  if (data.recommendSearch) url = origin + `/populer/?halaman=${data.recommendSearch}`;
+  if (data.newEpsSearch) url = origin + `/sedang-tayang/?halaman=${data.newEpsSearch}`;
 
   return await scrapeIt(encodeURI(url), {
     list: {
       listItem: ".listupd > div",
       data: {
         title: {
-          selector: "div > a",
-          attr: "title"
+          selector: "div > a > .tt"
         },
         eps: ".epx",
         status: ".sb",

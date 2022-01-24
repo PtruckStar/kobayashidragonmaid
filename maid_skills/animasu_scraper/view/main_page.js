@@ -1,29 +1,64 @@
 module.exports = (d) => { return `
-  <div style="margin-top: auto;>
-    ${d.view_search}
-  </div>
+  ${d.view_search}
   <nav id="menu">
-    <h3 class="recommend">Rekomendasi <i style="color:var(--blues);">hari ini »</i>
+    <button id="recBtn" onclick="toggleTab('rec')" active="">Rekomendasi</button>
+    <button id="newBtn" onclick="toggleTab('new')">New Episode</button>
   </nav>
-  </h3>
-  <div class="list-wraper"></div>
+  
+  <div id="rec" class="list-wraper" style="display:grid;">
+    ${d.items}
+  </div>
+
+  <div id="new" class="list-wraper" style="display:none;"></div>
    
   ${d.js}
   <script>
-    window.addEventListener("load", () => {      
-      const b = document.querySelector("#nextbtn");
-      b.style.display = "none";
-    });
-    
-    const rbtn = document.querySelector(".recommend");
-    
-    function getRecommends() {
-      const b = document.querySelector("#nextbtn");
-      b.style.display = "block";
-      load();
-      rbtn.removeEventListener("click", getRecommends);
+    const rec_el = document.querySelector("#rec")
+    const new_el = document.querySelector("#new")
+    const recBtn = document.querySelector("#recBtn")
+    const newBtn = document.querySelector("#newBtn")
+
+    let saved_next_recommend_page_url = nextpage
+    let saved_next_newEps_page_url = "/anime/episode-baru?page=1"
+    let saved_list_wraper_element = list_wraper_element
+
+    list_wraper_element = document.querySelector("#rec.list-wraper");
+
+    function toggleUrl(tab) {
+      let temp
+      if (tab == "rec") {
+        temp = nextpage
+        nextpage = saved_next_recommend_page_url
+        saved_next_newEps_page_url = temp
+        saved_list_wraper_element = list_wraper_element
+        list_wraper_element = document.querySelector("#rec.list-wraper");
+      } else {
+        temp = nextpage
+        nextpage = saved_next_newEps_page_url
+        saved_next_recommend_page_url = temp
+        saved_list_wraper_element = list_wraper_element
+        list_wraper_element = document.querySelector("#new.list-wraper");
+      }
     }
-              
-    rbtn.addEventListener("click", getRecommends);
+
+    function toggleTab(tab) {
+      if(tab === "rec") {
+        rec_el.style.display = "grid"
+        new_el.style.display = "none"
+        recBtn.setAttribute("active", "")
+        newBtn.removeAttribute("active")
+        toggleUrl(tab)
+      } else {
+        rec_el.style.display = "none"
+        new_el.style.display = "grid"
+        newBtn.setAttribute("active", "")
+        recBtn.removeAttribute("active")
+        toggleUrl(tab)
+      }
+    }
+    
+    newBtn.addEventListener("click", function() {
+      load();
+    }, {once : true});
   </script>`
 }

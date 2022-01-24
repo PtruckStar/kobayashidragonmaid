@@ -25,6 +25,7 @@ const h = (content, title, poster) => {
   }
   
   return `
+  <!DOCTYPE html>
   <html color-mode="light">
   <head>
   <title>${(title)? title : "Nonton anime gratis subtitle indonesia!"}</title>
@@ -57,6 +58,7 @@ const h = (content, title, poster) => {
       --text: #d1d1d1;
       --subtext: gray;
       --dismiss: #c62a5e;
+      --blur: rgba(12, 12, 12, 0.5);
     }
     :root[color-mode="light"] {
       --background: #f1f1f1;
@@ -67,6 +69,7 @@ const h = (content, title, poster) => {
       --text: black;
       --subtext: #444;
       --dismiss: #ed0a5a;
+      --blur: rgba(255, 255, 255, 0.5);
     }
     :root[color-mode="light"] .light--hidden {
         display: none;
@@ -101,6 +104,7 @@ const h = (content, title, poster) => {
       align-items: center;
       width: 100%;
       min-height: 100vh;
+      gap: 1rem;
     }
     .list-wraper {
       max-width: 600px;
@@ -122,15 +126,17 @@ const h = (content, title, poster) => {
     a.list > img {
       width: 100%;
       margin-bottom: 0.5rem;
+      transition: 0.2s linear;
     }
-    a.list > h3 {
-      margin: 0;
-      padding: 0 0.5rem;
+    .list_info {
+      padding: 0 .5rem;
+      transition: 0.2s linear;
+    }
+    .list_info h3 {
       color: var(--text);
     }
-    a.list > span {
+    .list_info span {
       font-size: 0.75rem;
-      padding: 0 0.5rem;
       color: var(--subtext);
     }
     
@@ -140,23 +146,25 @@ const h = (content, title, poster) => {
       justify-content: flex-start;
       width: 100%;
       max-width: 600px;
+      margin-top: 1.5rem;
+      gap: 0.5rem;
     }
     form {
       width: 100%;
       background-color: var(--foreground);
       border-radius: 0.5rem;
       padding: 0;
-      margin: 1em 0;
-      margin-left: 0.5rem;
       overflow: hidden;
-      flex-basis: auto;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
     input:focus {
       border: none;
       outline: none;
     }
     input[type="text"] {
-      width: 70%;
+      width: 100%;
       border: none;
       height: 2rem;
       font-size: 1em;
@@ -184,7 +192,6 @@ const h = (content, title, poster) => {
       border-radius: 0.5rem;
       overflow: hidden;
       padding: 1rem;
-      margin-top: 0.5rem;
       max-width: 600px;
       box-sizing: border-box;
     }
@@ -278,7 +285,6 @@ const h = (content, title, poster) => {
       background-color: var(--foreground);
       border-radius: 0.5rem;
       overflow: hidden;
-      margin-top: 0.5rem;
       width: 100%;
       max-width: 600px;
     }
@@ -321,8 +327,6 @@ const h = (content, title, poster) => {
     
     .nav_wraper {
       width: 100%;
-      margin-top: 1rem;
-      margin-bottom: 2rem;
       position: relative;
       padding: 0;
     } 
@@ -387,27 +391,33 @@ const h = (content, title, poster) => {
       visibility: hidden;
     }
     
-    #menu {
-      margin-bottom: 1.5rem;
+    #menu{
+      width: 100%;
+      max-width: 600px;
+      display: flex;
+      gap: 1rem;
+      align-items: first baseline;
     }
-    .recommend {
-      position: relative;
-      display: block;
-      z-index: 9;
+    
+    .menu_sparator {
+      border-right: solid 2px var(--text);
+      height: 20px;
     }
-    .recommend::before {
-      content: "";
-      top: 0;
-      right: 0;
-      bottom: 0;
-      left: 0;
-      position: absolute;
+    
+    #recBtn, #newBtn {
       border: none;
+      background: transparent;
+      font-size: 1rem;
+      color: var(--text);
+      transition: .2s;
     }
-    .recommend:hover {
-      text-decoration: underline;
-      text-decoration-style: wavy;
-      text-decoration-color: var(--subtext)
+    #recBtn:hover, #newBtn:hover {
+      color: var(--blues);
+      cursor: pointer;
+    }
+    #recBtn[active], #newBtn[active] {
+      color: var(--blues);
+      font-size: 1.5rem;
     }
     
     .color-mode__btn {
@@ -524,15 +534,21 @@ const h = (content, title, poster) => {
       .list-wraper {
         grid-template-columns: 1fr 1fr 1fr;
       }
-      a.list:hover {
+      .list:hover img{
         transform: scale(1.1, 1.1);
-        transition: 0.2s ease-in;
-        box-shadow: 
-          -10px -10px 20px -7px var(--blues),
-          10px 10px 20px -7px var(--blues);
+      }
+      .list:hover .list_info {
+        transform: translateY(-50%);
+        background: var(--blur);
       }
       .make_it_fly {
         margin: 0;
+      }
+      #recBtn, #newBtn {
+        font-size: 1.5rem;
+      }
+      #recBtn[active], #newBtn[active] {
+        font-size: 2rem;
       }
     }
   </style>
