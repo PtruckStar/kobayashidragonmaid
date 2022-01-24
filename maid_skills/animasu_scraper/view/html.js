@@ -395,12 +395,13 @@ const h = (content, title, poster) => {
       width: 100%;
       max-width: 600px;
       display: flex;
-      gap: 1rem;
+      gap: 0.5rem;
       align-items: first baseline;
       height: 2rem;
     }
     .menu_sparator {
-      font-size: 1rem;
+      height: 1rem;
+      border-right: solid 3px var(--lighten);
     }
     #recBtn, #newBtn {
       border: none;

@@ -2,6 +2,7 @@ module.exports = (d) => { return `
   ${d.view_search}
   <nav id="menu">
     <button id="recBtn" onclick="toggleTab('rec')" active="">Rekomendasi</button>
+    <div class="menu_sparator"></div>
     <button id="newBtn" onclick="toggleTab('new')">Episode Terbaru</button>
   </nav>
   
