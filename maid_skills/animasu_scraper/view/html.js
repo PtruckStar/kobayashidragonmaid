@@ -397,17 +397,16 @@ const h = (content, title, poster) => {
       display: flex;
       gap: 1rem;
       align-items: first baseline;
+      height: 2rem;
     }
-    
     .menu_sparator {
-      border-right: solid 2px var(--text);
-      height: 20px;
+      font-size: 1rem;
     }
-    
     #recBtn, #newBtn {
       border: none;
       background: transparent;
-      font-size: 1rem;
+      font-size: 1.25rem;
+      font-weight: bolder;
       color: var(--text);
       transition: .2s;
     }
