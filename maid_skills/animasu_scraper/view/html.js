@@ -359,7 +359,9 @@ const h = (content, title, poster) => {
       width: 100%;
       position: absolute;
       right: 0;
-      transition: 0.5s ease !important;
+      transition-property: transform, opacity;
+      transition-duration: 0.5s;
+      transition-timing-function: ease !important;
     }
     .topbtn_mid_wraper {
       width: 100%;
@@ -583,7 +585,7 @@ const h = (content, title, poster) => {
   </section>
   
   <header>
-    <a href="/anime" title="Beranda" style="width:600px;height:100%;"></a>
+    <a href="/anime" title="Beranda" style="width:600px;height:82.5%;"></a>
     <div class="hero">
       <img src="/heroS.png" alt="Nonton Anime Gratis Tanpa Iklan Hannya disini!">
     </div>
