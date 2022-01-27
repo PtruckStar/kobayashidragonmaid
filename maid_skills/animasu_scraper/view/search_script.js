@@ -37,9 +37,11 @@ module.exports = (nextpage) => { return `<script>
     
     function scrollFunction() {
       if (document.body.scrollTop > vh || document.documentElement.scrollTop > vh) {
-        topbtn.style.display = "block";
+        topbtn.style.opacity = "1";
+        topbtn.style.transform = "translateY(0)";
       } else {
-        topbtn.style.display = "none";
+        topbtn.style.opacity = "0";
+        topbtn.style.transform = "translateY(100px)";
       }
     }
        

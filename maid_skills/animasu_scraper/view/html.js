@@ -101,13 +101,19 @@ const h = (content, title, poster) => {
       position: relative;
       display: flex;
       justify-content: center;
-      margin-top: 1rem;
       height: 190px;
     }
     .hero {
+      width:100vw;
       max-width: 600px;
       position: absolute;
       z-index: -2;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+    }
+    .hero img {
+      max-width: 600px;
     }
     
     #content {
@@ -147,6 +153,7 @@ const h = (content, title, poster) => {
     }
     .list_info h3 {
       color: var(--text);
+      font-size: 1rem;
     }
     .list_info span {
       font-size: 0.75rem;
@@ -352,7 +359,7 @@ const h = (content, title, poster) => {
       width: 100%;
       position: absolute;
       right: 0;
-      display: none;
+      transition: 0.5s ease !important;
     }
     .topbtn_mid_wraper {
       width: 100%;
@@ -577,7 +584,9 @@ const h = (content, title, poster) => {
   
   <header>
     <a href="/anime" title="Beranda" style="width:600px;height:100%;"></a>
-    <img src="/heroS.png" class="hero" alt="Nonton Anime Gratis Tanpa Iklan Hannya disini!">
+    <div class="hero">
+      <img src="/heroS.png" alt="Nonton Anime Gratis Tanpa Iklan Hannya disini!">
+    </div>
   </header>
   
   <main id="content">
