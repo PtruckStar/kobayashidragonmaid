@@ -96,6 +96,19 @@ const h = (content, title, poster) => {
     a {
       text-decoration: none;
     }
+
+    header {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      margin-top: 1rem;
+      height: 190px;
+    }
+    .hero {
+      max-width: 600px;
+      position: absolute;
+      z-index: -2;
+    }
     
     #content {
       display: flex;
@@ -146,7 +159,6 @@ const h = (content, title, poster) => {
       justify-content: flex-start;
       width: 100%;
       max-width: 600px;
-      margin-top: 1.5rem;
       gap: 0.5rem;
     }
     form {
@@ -396,28 +408,27 @@ const h = (content, title, poster) => {
       max-width: 600px;
       display: flex;
       gap: 0.5rem;
-      align-items: first baseline;
-      height: 2rem;
-    }
-    .menu_sparator {
-      height: 1rem;
-      border-right: solid 3px var(--lighten);
+      align-items: center;
+      justify-content: center;
+      height: 1.25rem;
     }
     #recBtn, #newBtn {
       border: none;
-      background: transparent;
-      font-size: 1.25rem;
-      font-weight: bolder;
+      border-radius: 0.5rem;
+      padding: 0.5rem;
+      background-color: var(--foreground);
       color: var(--text);
+      font-weight: bolder;
       transition: .2s;
     }
     #recBtn:hover, #newBtn:hover {
       color: var(--blues);
       cursor: pointer;
+      transform: scale(1.2, 1.2);
+      margin: 0 .5rem;
     }
     #recBtn[active], #newBtn[active] {
       color: var(--blues);
-      font-size: 1.5rem;
     }
     
     .color-mode__btn {
@@ -532,7 +543,7 @@ const h = (content, title, poster) => {
     
     @media(min-width:48em) {
       .list-wraper {
-        grid-template-columns: 1fr 1fr 1fr;
+        grid-template-columns: 1fr 1fr 1fr 1fr;
       }
       .list:hover img{
         transform: scale(1.1, 1.1);
@@ -541,14 +552,11 @@ const h = (content, title, poster) => {
         transform: translateY(-50%);
         background: var(--blur);
       }
+      .list_info span {
+        font-size: 0.7rem;
+      }
       .make_it_fly {
         margin: 0;
-      }
-      #recBtn, #newBtn {
-        font-size: 1.5rem;
-      }
-      #recBtn[active], #newBtn[active] {
-        font-size: 2rem;
       }
     }
   </style>
@@ -566,6 +574,11 @@ const h = (content, title, poster) => {
       <button class="toast_close_btn" onclick="close_toast()">Tutup</button>
     </div>
   </section>
+  
+  <header>
+    <a href="/anime" title="Beranda" style="width:600px;height:100%;"></a>
+    <img src="/heroS.png" class="hero" alt="Nonton Anime Gratis Tanpa Iklan Hannya disini!">
+  </header>
   
   <main id="content">
     ${content}
