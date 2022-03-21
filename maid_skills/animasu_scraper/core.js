@@ -1,5 +1,5 @@
 const scrapeIt = require("scrape-it");
-const origin = "https://animasu.vip";
+const origin = "https://animasu.art";
 
 //fix video source
 function fixSource(src) {
